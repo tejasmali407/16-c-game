@@ -1,0 +1,341 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark Violet background #120B1A */
+    --background: 268 41% 7%;
+    --foreground: 0 0% 100%;
+
+    /* Surface cards #1F1230 */
+    --surface: 266 45% 13%;
+    --surface-foreground: 0 0% 100%;
+
+    /* Warm Cream and Dark Maroon text (Paper Chitthi style) */
+    --card: 43 100% 95%;
+    --card-foreground: 268 41% 7%;
+
+    --popover: 266 45% 13%;
+    --popover-foreground: 0 0% 100%;
+
+    /* Primary — Gold #FFD54F */
+    --primary: 46 100% 65%;
+    --primary-foreground: 268 41% 7%;
+
+    /* Secondary — Orange #FF7043 */
+    --secondary: 14 100% 63%;
+    --secondary-foreground: 268 41% 7%;
+
+    /* Accent — Pinkish Red #FF3D71 */
+    --accent: 344 100% 62%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Warning — Orange #FF7043 */
+    --warning: 14 100% 63%;
+    --warning-foreground: 268 41% 7%;
+
+    /* Success — Green #00E676 */
+    --success: 151 100% 45%;
+    --success-foreground: 268 41% 7%;
+
+    /* Danger */
+    --destructive: 344 100% 62%;
+    --destructive-foreground: 0 0% 100%;
+
+    --muted: 266 30% 20%;
+    /* Secondary Text #D1C4E9 */
+    --muted-foreground: 261 46% 84%;
+
+    --border: 266 25% 22%;
+    --input: 266 25% 22%;
+    --ring: 46 100% 65%;
+
+    --radius: 0.875rem;
+
+    --neon-cyan: 46 100% 65%;
+    --neon-purple: 14 100% 63%;
+    --neon-gold: 344 100% 62%;
+
+    --font-display: 'Outfit', system-ui, sans-serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html, body, #root {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background font-body text-foreground antialiased;
+    background-image: var(--body-mesh, none);
+  }
+}
+
+@layer components {
+  /* Typography */
+  .text-heading-xl {
+    @apply font-display font-bold tracking-tight text-foreground;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .text-heading-lg {
+    @apply font-display font-bold text-foreground;
+    font-size: clamp(1.5rem, 4vw, 1.75rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .text-heading-md {
+    @apply font-display font-semibold text-foreground;
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .text-body {
+    @apply font-body text-foreground/90;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .text-small {
+    @apply font-body text-muted-foreground;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  /* Background */
+  .bg-game-app {
+    @apply relative bg-background bg-game-mesh;
+  }
+
+  .bg-game-app::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0 opacity-40;
+    background-image: radial-gradient(
+      circle at 20% 80%,
+      hsl(var(--secondary) / 0.08) 0%,
+      transparent 40%
+    );
+  }
+
+  /* Glassmorphism */
+  .glass-card {
+    @apply rounded-2xl border border-white/10 bg-surface/60 shadow-glass backdrop-blur-xl;
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--foreground) / 0.04) 0%,
+      transparent 45%
+    );
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    @apply border-primary/30 bg-surface/80 shadow-glow-cyan;
+  }
+
+  /* Neon borders */
+  .neon-border-cyan {
+    @apply border border-primary/50 shadow-[inset_0_0_12px_hsl(var(--primary)/0.15)];
+    box-shadow:
+      0 0 12px hsl(var(--primary) / 0.25),
+      inset 0 0 12px hsl(var(--primary) / 0.08);
+  }
+
+  .neon-border-purple {
+    @apply border border-secondary/50;
+    box-shadow:
+      0 0 12px hsl(var(--secondary) / 0.25),
+      inset 0 0 12px hsl(var(--secondary) / 0.08);
+  }
+
+  .neon-border-gold {
+    @apply border border-accent/50;
+    box-shadow:
+      0 0 12px hsl(var(--accent) / 0.3),
+      inset 0 0 12px hsl(var(--accent) / 0.08);
+  }
+
+  /* Glow utilities */
+  .glow-cyan {
+    box-shadow: 0 0 24px hsl(var(--primary) / 0.4);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 24px hsl(var(--secondary) / 0.4);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 24px hsl(var(--accent) / 0.45);
+  }
+
+  /* Game card surface */
+  .game-card-face {
+    @apply relative overflow-hidden rounded-3xl border-2 bg-card bg-card-shine;
+  }
+
+  .game-card-face-down {
+    @apply game-card-face neon-border-gold;
+    background: linear-gradient(
+      145deg,
+      hsl(var(--secondary) / 0.4) 0%,
+      hsl(var(--surface)) 50%,
+      hsl(var(--background)) 100%
+    );
+  }
+
+  /* Menu action card */
+  .home-menu-card {
+    @apply glass-card-hover relative flex w-full items-center gap-4 p-4 text-left active:scale-[0.98] sm:p-5;
+  }
+
+  .home-menu-card-icon {
+    @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 sm:h-14 sm:w-14;
+  }
+
+  /* Stack button shell */
+  .stack-button-shell {
+    @apply relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-primary/60 bg-gradient-to-b from-surface to-muted px-8 py-10;
+    animation: pulse-glow 2.5s ease-in-out infinite;
+  }
+
+  .stack-button-shell:disabled {
+    animation: none;
+  }
+
+  .stack-button-shell::before {
+    content: '';
+    @apply absolute inset-0 opacity-30;
+    background: radial-gradient(
+      circle at 50% 30%,
+      hsl(var(--primary) / 0.35) 0%,
+      transparent 65%
+    );
+  }
+
+  /* Locked feature */
+  .locked-feature-card {
+    @apply glass-card relative flex flex-col items-center justify-center gap-2 rounded-xl p-4 text-center opacity-75 sm:p-5;
+  }
+
+  /* Gradient text */
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-primary via-neon-cyan to-secondary bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .tap-highlight-none {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Background Particle Effects */
+.particle-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, transparent 75%);
+  animation: float-particle var(--duration, 12s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  width: var(--size, 20px);
+  height: var(--size, 20px);
+  left: var(--left, 10%);
+  top: var(--top, 80%);
+}
+
+@keyframes float-particle {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-80px) translateX(25px) scale(1.3);
+    opacity: 0.45;
+  }
+}
+
+/* Responsive Player Seat scaling and positioning */
+.player-seat-wrapper {
+  position: absolute;
+  transform: translate(-50%, -50%) scale(0.68);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 20;
+}
+@media (min-width: 360px) {
+  .player-seat-wrapper {
+    transform: translate(-50%, -50%) scale(0.78);
+  }
+}
+@media (min-width: 410px) {
+  .player-seat-wrapper {
+    transform: translate(-50%, -50%) scale(0.86);
+  }
+}
+@media (min-width: 768px) {
+  .player-seat-wrapper {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+}
+@media (min-width: 1024px) {
+  .player-seat-wrapper {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+/* Responsive Virtual Table inset constraints */
+.virtual-table {
+  position: absolute;
+  inset: 24%;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--surface)) 40%, hsl(var(--background)) 100%);
+  border: 4px solid hsl(var(--primary) / 0.15);
+  box-shadow: 
+    0 0 30px hsl(var(--primary) / 0.1),
+    inset 0 0 40px rgba(18, 11, 26, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 10;
+  transition: all 0.3s ease-in-out;
+}
+@media (min-width: 768px) {
+  .virtual-table {
+    inset: 22%;
+  }
+}
+@media (min-width: 1024px) {
+  .virtual-table {
+    inset: 20%;
+  }
+}

@@ -9,16 +9,7 @@ import { LeaderboardPage } from '@/pages/LeaderboardPage';
 import { HowToPlayPage } from '@/pages/HowToPlayPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 
-export const ROUTES = {
-  SPLASH: '/',
-  HOME: '/home',
-  SETUP: '/setup',
-  GAME: '/game',
-  WINNER: '/winner',
-  LEADERBOARD: '/leaderboard',
-  RULES: '/rules',
-  SETTINGS: '/settings',
-};
+import { ROUTES } from '@/data/routes';
 
 export function AppRoutes() {
   return (

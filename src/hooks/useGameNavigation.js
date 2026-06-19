@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/routes';
+import { ROUTES } from '@/data/routes';
 
 export function useGameNavigation() {
   const navigate = useNavigate();

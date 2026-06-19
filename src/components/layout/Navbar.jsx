@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
 import { BookOpen, Home, Settings, Trophy, Menu, X } from 'lucide-react';
-import { ROUTES } from '@/routes';
+import { ROUTES } from '@/data/routes';
 import { cn } from '@/utils/cn';
 import { useTranslation } from '@/hooks/useTranslation';
 

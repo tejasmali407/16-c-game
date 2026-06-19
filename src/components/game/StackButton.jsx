@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Layers, Zap } from 'lucide-react';
 import { Body, SmallText } from '@/components/ui/typography';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 import { useMotionConfig } from '@/hooks/useMotionConfig';
 
 export function StackButton({

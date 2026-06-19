@@ -44,4 +44,3 @@ export function PWAInstallButton({ showFallback = true }) {
 
   return null;
 }
-

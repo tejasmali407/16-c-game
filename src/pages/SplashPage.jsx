@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { HeadingXL, SmallText } from '@/components/ui/typography';
-import { ROUTES } from '@/routes/paths';
+import { ROUTES } from '@/routes';
 
 const SPLASH_DURATION_MS = 2400;
 

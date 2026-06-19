@@ -3,7 +3,7 @@ import {
   DEFAULT_PLAYER_COUNT,
   MAX_PLAYERS,
   MIN_PLAYERS,
-} from '@/constants/setup';
+} from '@/data/setup';
 import { useGame } from '@/context/GameContext';
 import { useSettings } from '@/context/SettingsContext';
 import { createDraftPlayers, createPlayer } from '@/utils/createPlayer';

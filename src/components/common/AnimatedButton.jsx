@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { cva } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 import { useMotionConfig } from '@/hooks/useMotionConfig';
 
 const animatedButtonVariants = cva(

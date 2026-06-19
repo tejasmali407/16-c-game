@@ -1,5 +1,5 @@
 import { useLanguage } from '@/context/LanguageContext';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 export function LanguageSelector({ className, compact = false }) {
   const { selectedLanguage, setSelectedLanguage } = useLanguage();

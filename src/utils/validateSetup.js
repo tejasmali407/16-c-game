@@ -1,9 +1,9 @@
-import { MIN_PLAYERS } from '@/constants/setup';
+import { MIN_PLAYERS } from '@/data/setup';
 
 /**
  * Validate setup form before starting a game.
- * @param {import('@/types/game').SetupDraftPlayer[]} players
- * @returns {import('@/types/game').SetupValidationResult}
+ * @param {import('@/utils/types').SetupDraftPlayer[]} players
+ * @returns {import('@/utils/types').SetupValidationResult}
  */
 export function validateSetup(players) {
   const globalErrors = [];

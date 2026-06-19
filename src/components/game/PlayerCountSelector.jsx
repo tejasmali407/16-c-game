@@ -1,8 +1,8 @@
 import { Minus, Plus, Users } from 'lucide-react';
 import { AnimatedButton } from '@/components/common/AnimatedButton';
 import { Body, SmallText } from '@/components/ui/typography';
-import { MAX_PLAYERS, MIN_PLAYERS } from '@/constants/setup';
-import { cn } from '@/lib/utils';
+import { MAX_PLAYERS, MIN_PLAYERS } from '@/data/setup';
+import { cn } from '@/utils/cn';
 
 export function PlayerCountSelector({
   count,

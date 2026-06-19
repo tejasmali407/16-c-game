@@ -8,7 +8,7 @@ import { useGameNavigation } from '@/hooks/useGameNavigation';
 import { useMotionConfig } from '@/hooks/useMotionConfig';
 import { useTranslation } from '@/hooks/useTranslation';
 import confetti from 'canvas-confetti';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 export function WinnerPage() {
   const { winner, players, reactions, lastPlayerId, resetRound, resetGame } = useGame();

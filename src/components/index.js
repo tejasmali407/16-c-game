@@ -6,10 +6,10 @@ export { StackButton } from '@/components/game/StackButton';
 export { AnimatedButton } from '@/components/common/AnimatedButton';
 export { SectionTitle } from '@/components/common/SectionTitle';
 export { LockedFeatureCard } from '@/components/common/LockedFeatureCard';
-export { HomeMenuCard } from '@/components/home/HomeMenuCard';
-export { PlayerCountSelector } from '@/components/setup/PlayerCountSelector';
-export { SetupPlayerInputCard } from '@/components/setup/SetupPlayerInputCard';
-export { SetupErrorBanner } from '@/components/setup/SetupErrorBanner';
+export { HomeMenuCard } from '@/components/common/HomeMenuCard';
+export { PlayerCountSelector } from '@/components/game/PlayerCountSelector';
+export { SetupPlayerInputCard } from '@/components/game/SetupPlayerInputCard';
+export { SetupErrorBanner } from '@/components/game/SetupErrorBanner';
 export {
   Heading,
   HeadingXL,

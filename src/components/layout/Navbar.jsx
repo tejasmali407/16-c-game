@@ -3,8 +3,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
 import { BookOpen, Home, Settings, Trophy, Menu, X } from 'lucide-react';
-import { ROUTES } from '@/routes/paths';
-import { cn } from '@/lib/utils';
+import { ROUTES } from '@/routes';
+import { cn } from '@/utils/cn';
 import { useTranslation } from '@/hooks/useTranslation';
 
 const navItems = [

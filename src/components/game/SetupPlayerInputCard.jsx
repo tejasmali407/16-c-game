@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Body, SmallText } from '@/components/ui/typography';
 import { useMotionConfig } from '@/hooks/useMotionConfig';
 import { useTranslation } from '@/hooks/useTranslation';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 export function SetupPlayerInputCard({
   player,

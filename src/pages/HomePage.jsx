@@ -6,14 +6,14 @@ import {
   BookOpen,
   Settings,
 } from 'lucide-react';
-import { HomeMenuCard } from '@/components/home/HomeMenuCard';
+import { HomeMenuCard } from '@/components/common/HomeMenuCard';
 import { LockedFeatureCard } from '@/components/common/LockedFeatureCard';
 import { SectionTitle } from '@/components/common/SectionTitle';
 import { Body } from '@/components/ui/typography';
 import { COMING_SOON_FEATURES } from '@/data/comingSoonFeatures';
 import { useGameNavigation } from '@/hooks/useGameNavigation';
 import { useMotionConfig } from '@/hooks/useMotionConfig';
-import { PWAInstallButton } from '@/components/PWAInstallButton';
+import { PWAInstallButton } from '@/components/common/PWAInstallButton';
 import { useTranslation } from '@/hooks/useTranslation';
 
 const MAIN_MENU = [

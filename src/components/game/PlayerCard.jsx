@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Bot } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 export function PlayerCard({
   player,

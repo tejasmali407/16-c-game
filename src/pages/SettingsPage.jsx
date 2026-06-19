@@ -7,9 +7,9 @@ import { useMotionConfig } from '@/hooks/useMotionConfig';
 import { useToast } from '@/context/ToastContext';
 import { useGame } from '@/context/GameContext';
 import { clearLeaderboard } from '@/utils/localStorage';
-import { PWAInstallButton } from '@/components/PWAInstallButton';
+import { PWAInstallButton } from '@/components/common/PWAInstallButton';
 import { useTranslation } from '@/hooks/useTranslation';
-import { LanguageSelector } from '@/components/LanguageSelector';
+import { LanguageSelector } from '@/components/common/LanguageSelector';
 
 export function SettingsPage() {
   const { settings, updateSettings } = useSettings();

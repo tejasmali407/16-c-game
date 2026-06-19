@@ -9,7 +9,7 @@ import { useMotionConfig } from '@/hooks/useMotionConfig';
 import { chooseCardToPass } from '@/utils/robotAI';
 import { Brain, Bot, User } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 // Helper to determine seat positions around the virtual table (percentage values for left/top)
 // Assumes a relative container, centering each player bubble using translate(-50%, -50%)

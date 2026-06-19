@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Lock } from 'lucide-react';
 import { SmallText, Body } from '@/components/ui/typography';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 import { useMotionConfig } from '@/hooks/useMotionConfig';
 import { useToast } from '@/context/ToastContext';
 import { useTranslation } from '@/hooks/useTranslation';

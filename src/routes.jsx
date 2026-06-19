@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { ROUTES } from '@/routes/paths';
-import { MainLayout } from '@/layouts/MainLayout';
+import { MainLayout } from '@/components/layout/MainLayout';
 import { SplashPage } from '@/pages/SplashPage';
 import { HomePage } from '@/pages/HomePage';
 import { SetupPage } from '@/pages/SetupPage';
@@ -9,6 +8,17 @@ import { WinnerPage } from '@/pages/WinnerPage';
 import { LeaderboardPage } from '@/pages/LeaderboardPage';
 import { HowToPlayPage } from '@/pages/HowToPlayPage';
 import { SettingsPage } from '@/pages/SettingsPage';
+
+export const ROUTES = {
+  SPLASH: '/',
+  HOME: '/home',
+  SETUP: '/setup',
+  GAME: '/game',
+  WINNER: '/winner',
+  LEADERBOARD: '/leaderboard',
+  RULES: '/rules',
+  SETTINGS: '/settings',
+};
 
 export function AppRoutes() {
   return (

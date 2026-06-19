@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { HeadingMD, SmallText } from '@/components/ui/typography';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 import { useMotionConfig } from '@/hooks/useMotionConfig';
 
 export function SectionTitle({

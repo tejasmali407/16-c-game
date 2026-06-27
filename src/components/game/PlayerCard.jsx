@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion';
 import { Bot } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { useLanguage } from '@/context/LanguageContext';
+import { getLocalizedPlayerName } from '@/utils/localizedDisplay';
 
 export function PlayerCard({
   player,
   isActive = false,
   className,
 }) {
-  const name = player?.name ?? 'Player';
+  const { selectedLanguage } = useLanguage();
+  const name = player ? getLocalizedPlayerName(player, selectedLanguage) : 'Player';
 
   // Deterministic Avatar Assignment
   const getAvatar = () => {
@@ -92,4 +95,4 @@ export function PlayerCard({
     </motion.div>
   );
 }
-export default PlayerCard;
+

@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GameCard } from '@/components/game/GameCard';
 import { PlayerCard } from '@/components/game/PlayerCard';
@@ -7,9 +8,11 @@ import { useGame } from '@/context/GameContext';
 import { useGameNavigation } from '@/hooks/useGameNavigation';
 import { useMotionConfig } from '@/hooks/useMotionConfig';
 import { chooseCardToPass } from '@/utils/robotAI';
-import { Brain, Bot, User } from 'lucide-react';
+import { Brain, Bot, User, RefreshCw } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { cn } from '@/utils/cn';
+import { useLanguage } from '@/context/LanguageContext';
+import { getLocalizedPlayerName, getLocalizedCardName, getLocalizedLeaderboardName } from '@/utils/localizedDisplay';
 
 // Helper to determine seat positions around the virtual table (percentage values for left/top)
 // Assumes a relative container, centering each player bubble using translate(-50%, -50%)
@@ -103,6 +106,7 @@ export function GamePage() {
   const { goHome, goWinner } = useGameNavigation();
   const { pageTransition } = useMotionConfig();
   const { t } = useTranslation();
+  const { selectedLanguage } = useLanguage();
   
   const activePlayer = players[currentPlayerIndex];
   const [isHandRevealed, setIsHandRevealed] = useState(false);
@@ -261,7 +265,7 @@ export function GamePage() {
             {t('slamStack')}
           </h2>
           <p className="text-[#D1C4E9] text-xs max-w-sm mx-auto font-bold">
-            {t('slamStackDesc', { winner: winner?.name })}
+            {t('slamStackDesc', { winner: getLocalizedPlayerName(winner, selectedLanguage) })}
           </p>
         </div>
 
@@ -287,7 +291,7 @@ export function GamePage() {
                 <div className="text-center">
                   <h3 className="font-extrabold text-sm text-white flex items-center justify-center gap-1.5">
                     {p.isRobot ? <Bot className="h-4 w-4 text-[#FF7043]" /> : <User className="h-4 w-4 text-[#FFD54F]" />}
-                    {p.name}
+                    {getLocalizedPlayerName(p, selectedLanguage)}
                   </h3>
                   <p className="text-[10px] text-[#D1C4E9] font-bold mt-0.5">
                     {isWinner ? t('victory').replace('!', '') : p.isRobot ? 'Robot' : 'Human'}
@@ -343,7 +347,7 @@ export function GamePage() {
           <p className="text-[10px] sm:text-xs font-semibold text-[#D1C4E9]">
             {isWinnerState 
               ? t('matchCompleted')
-              : t('turn', { name: activePlayer?.name ?? 'Player' })}
+              : t('turn', { name: getLocalizedPlayerName(activePlayer, selectedLanguage) })}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -381,7 +385,7 @@ export function GamePage() {
                 <StackButton 
                   count={0} 
                   label={t('stack')} 
-                  sublabel={winner?.isRobot ? t('robotAutoStacking') : `${winner?.name}`} 
+                  sublabel={winner?.isRobot ? t('robotAutoStacking') : getLocalizedPlayerName(winner, selectedLanguage)} 
                   onClick={winner?.isRobot ? undefined : startReactionPhase}
                   disabled={winner?.isRobot}
                   isWinnerReady={true}
@@ -395,8 +399,8 @@ export function GamePage() {
                   label="16 CHITTHI" 
                   sublabel={
                     activePlayer?.isRobot 
-                      ? `${activePlayer.name} Thinking...` 
-                      : t('turn', { name: activePlayer?.name ?? 'Player' })
+                      ? `${getLocalizedPlayerName(activePlayer, selectedLanguage)} Thinking...` 
+                      : t('turn', { name: getLocalizedPlayerName(activePlayer, selectedLanguage) })
                   } 
                   disabled 
                 />
@@ -436,11 +440,18 @@ export function GamePage() {
               animate={getPlayerPositions(players.length)[animatingCard.receiverIndex]}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.65, ease: [0.34, 1.56, 0.64, 1] }}
-              className="absolute w-10 h-14 sm:w-16 sm:h-22 rounded-lg bg-card text-card-foreground border-2 border-[#FFD54F] flex items-center justify-center font-bold text-[9px] sm:text-xs shadow-[0_0_15px_rgba(255,213,79,0.5)] z-50 pointer-events-none"
+              className="absolute w-12 h-16 sm:w-20 sm:h-28 rounded-2xl game-card-face-down border border-accent/20 flex flex-col items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(255,213,79,0.5)] z-50 pointer-events-none"
               style={{ transform: 'translate(-50%, -50%)' }}
             >
-              <span className="text-center font-black select-none leading-none p-1">
-                {animatingCard.card.name}
+              {/* Card back pattern */}
+              <div className="absolute inset-2 rounded-xl border border-accent/15 bg-gradient-to-br from-secondary/15 to-transparent pointer-events-none" />
+              
+              {/* Small spinning refresh/pass icon */}
+              <RefreshCw className="h-4 w-4 sm:h-6 sm:w-6 text-[#FFD54F] animate-spin relative z-10" style={{ animationDuration: '3.5s' }} />
+              
+              {/* Localized Passing... text */}
+              <span className="text-[7px] sm:text-[9px] font-black text-[#FFD54F]/90 uppercase tracking-widest relative z-10 text-center px-1">
+                {t('passing')}
               </span>
             </motion.div>
           )}
@@ -454,7 +465,7 @@ export function GamePage() {
           <div className="space-y-3 sm:space-y-4 rounded-2xl border border-white/5 bg-[#1F1230]/40 p-3 sm:p-5 shadow-inner relative z-10">
             <div className="flex justify-between items-center px-1">
               <h3 className="font-extrabold text-white text-xs sm:text-sm uppercase tracking-wide">
-                {activePlayer.name}'s Hand
+                {getLocalizedPlayerName(activePlayer, selectedLanguage)}'s Hand
               </h3>
               <div className="flex items-center gap-2">
                 {isSecretMode && isHandRevealed && (
@@ -494,7 +505,7 @@ export function GamePage() {
                   {activePlayer.cards?.map((card, index) => (
                     <GameCard 
                       key={card.id} 
-                      card={{ label: card.name }} 
+                      card={{ label: getLocalizedCardName(card, selectedLanguage) }} 
                       isFaceDown={true} 
                       index={index} 
                     />
@@ -516,7 +527,7 @@ export function GamePage() {
                     return (
                       <GameCard 
                         key={card.id} 
-                        card={{ label: card.name }} 
+                        card={{ label: getLocalizedCardName(card, selectedLanguage) }} 
                         isSelected={isSelected}
                         isFaceDown={false} 
                         onClick={() => selectCard(card.id)}
@@ -550,7 +561,7 @@ export function GamePage() {
         <div className="space-y-3 sm:space-y-4 rounded-2xl border border-white/5 bg-[#1F1230]/20 p-3 sm:p-5 opacity-75 relative z-10">
           <div className="flex justify-between items-center px-1">
             <h3 className="font-extrabold text-[#D1C4E9] text-xs sm:text-sm uppercase tracking-wide">
-              {activePlayer.name}'s Hand ({t('locked')})
+              {getLocalizedPlayerName(activePlayer, selectedLanguage)}'s Hand ({t('locked')})
             </h3>
             <span className="text-[9px] sm:text-[10px] font-black text-[#FF3D71] uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-[#FF3D71]/20 bg-[#FF3D71]/5">
               {t('gamePaused')}
@@ -561,7 +572,7 @@ export function GamePage() {
             {activePlayer.cards?.map((card, index) => (
               <GameCard 
                 key={card.id} 
-                card={{ label: card.name }} 
+                card={{ label: getLocalizedCardName(card, selectedLanguage) }} 
                 isFaceDown={false} 
                 index={index} 
               />
@@ -573,4 +584,4 @@ export function GamePage() {
   );
 }
 
-export default GamePage;
+

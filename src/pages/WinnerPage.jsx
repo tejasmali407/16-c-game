@@ -9,14 +9,17 @@ import { useMotionConfig } from '@/hooks/useMotionConfig';
 import { useTranslation } from '@/hooks/useTranslation';
 import confetti from 'canvas-confetti';
 import { cn } from '@/utils/cn';
+import { useLanguage } from '@/context/LanguageContext';
+import { getLocalizedPlayerName, getLocalizedCardName, getLocalizedLeaderboardName } from '@/utils/localizedDisplay';
 
 export function WinnerPage() {
   const { winner, players, reactions, lastPlayerId, resetRound, resetGame } = useGame();
   const { goHome, goGame } = useGameNavigation();
   const { pageTransition } = useMotionConfig();
   const { t } = useTranslation();
+  const { selectedLanguage } = useLanguage();
 
-  const winnerName = winner?.name ?? 'Champion';
+  const winnerName = winner ? getLocalizedPlayerName(winner, selectedLanguage) : 'Champion';
   const lastPlayer = players.find((p) => p.id === lastPlayerId);
 
   // Trigger celebratory double-sided confetti bursts on mount
@@ -100,7 +103,7 @@ export function WinnerPage() {
         </div>
         {winningCards.length > 0 && (
           <Body className="text-[#FF3D71] font-black tracking-widest uppercase text-xs sm:text-sm mt-1 animate-pulse">
-            {t('collectedAllChitthis', { name: winningCards[0]?.name })}
+            {t('collectedAllChitthis', { name: getLocalizedCardName(winningCards[0], selectedLanguage) })}
           </Body>
         )}
       </div>
@@ -117,7 +120,7 @@ export function WinnerPage() {
               whileHover={{ scale: 1.15, rotate: (idx - 1.5) * 5, zIndex: 10 }}
               className="w-11 h-16 sm:w-16 sm:h-22 md:w-20 md:h-28 rounded-xl bg-card text-card-foreground border-2 border-[#FFD54F] flex items-center justify-center font-black text-xs sm:text-sm shadow-xl select-none cursor-default"
             >
-              <span className="p-1 text-center leading-none">{card.name}</span>
+              <span className="p-1 text-center leading-none">{getLocalizedCardName(card, selectedLanguage)}</span>
             </motion.div>
           ))}
         </div>
@@ -137,7 +140,7 @@ export function WinnerPage() {
               <li key={r.playerId} className="flex justify-between items-center text-sm border-b border-white/5 pb-2">
                 <span className="font-extrabold text-white flex items-center gap-2">
                   <span className="text-[10px] text-[#D1C4E9] w-4">{index + 1}.</span>
-                  {r.playerName}
+                  {getLocalizedLeaderboardName(r.playerName, selectedLanguage)}
                 </span>
                 <span className={cn(
                   "font-black text-xs px-2.5 py-0.5 rounded-full border",
@@ -162,10 +165,10 @@ export function WinnerPage() {
             {lastPlayer ? (
               <div className="space-y-1.5 bg-[#FF3D71]/5 border border-[#FF3D71]/20 rounded-xl p-3 shadow-inner">
                 <p className="font-black text-[#FF3D71] text-base flex items-center gap-1.5">
-                  <span>🤣</span> {t('slackerTitle', { name: lastPlayer.name })}
+                  <span>🤣</span> {t('slackerTitle', { name: getLocalizedPlayerName(lastPlayer, selectedLanguage) })}
                 </p>
                 <p className="text-xs text-[#D1C4E9] font-medium leading-relaxed">
-                  {t('slackerDesc', { time: reactions.find((r) => r.playerId === lastPlayerId)?.time, name: lastPlayer.name })}
+                  {t('slackerDesc', { time: reactions.find((r) => r.playerId === lastPlayerId)?.time, name: getLocalizedPlayerName(lastPlayer, selectedLanguage) })}
                 </p>
               </div>
             ) : (
@@ -180,7 +183,7 @@ export function WinnerPage() {
             <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs bg-[#120B1A]/40 border border-white/5 rounded-xl p-3 shadow-inner">
               {players.map((p) => (
                 <div key={p.id} className="flex justify-between items-center text-[#D1C4E9] font-bold py-0.5 border-b border-white/5 last:border-0">
-                  <span className="truncate max-w-[90px]">{p.name}</span>
+                  <span className="truncate max-w-[90px]">{getLocalizedPlayerName(p, selectedLanguage)}</span>
                   <span className="font-black text-white shrink-0">
                     🏆 {p.score || 0} / ⚠️ {p.penalties || 0}
                   </span>
@@ -216,4 +219,4 @@ export function WinnerPage() {
   );
 }
 
-export default WinnerPage;
+

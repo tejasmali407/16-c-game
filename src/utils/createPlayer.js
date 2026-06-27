@@ -1,11 +1,13 @@
 /**
  * Build a game-ready player from setup form data.
  */
-export function createPlayer({ id, name, chitthiName, isRobot = false }) {
+export function createPlayer({ id, name, displayName, chitthiName, chitthiDisplayName, isRobot = false }) {
   return {
     id,
     name: name.trim(),
+    displayName,
     chitthiName: chitthiName.trim(),
+    chitthiDisplayName,
     isRobot,
     cards: [],
     score: 0,

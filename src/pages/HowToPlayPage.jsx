@@ -86,4 +86,4 @@ export function HowToPlayPage() {
     </motion.div>
   );
 }
-export default HowToPlayPage;
+

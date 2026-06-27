@@ -5,12 +5,15 @@ import { Body, SmallText } from '@/components/ui/typography';
 import { getItem, STORAGE_KEYS } from '@/utils/localStorage';
 import { useMotionConfig } from '@/hooks/useMotionConfig';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useLanguage } from '@/context/LanguageContext';
+import { getLocalizedLeaderboardName } from '@/utils/localizedDisplay';
 
 const EMPTY_LEADERBOARD = [];
 
 export function LeaderboardPage() {
   const { pageTransition } = useMotionConfig();
   const { t } = useTranslation();
+  const { selectedLanguage } = useLanguage();
   const entries = getItem(STORAGE_KEYS.LEADERBOARD, EMPTY_LEADERBOARD);
 
   return (
@@ -38,7 +41,7 @@ export function LeaderboardPage() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/15">
                 <Medal className="h-5 w-5 text-accent" aria-hidden />
               </div>
-              <Body className="flex-1 font-semibold">{entry.name}</Body>
+              <Body className="flex-1 font-semibold">{getLocalizedLeaderboardName(entry.name, selectedLanguage)}</Body>
               <SmallText>{t('winsCount', { wins: entry.wins })}</SmallText>
             </li>
           ))}
@@ -47,4 +50,4 @@ export function LeaderboardPage() {
     </motion.div>
   );
 }
-export default LeaderboardPage;
+

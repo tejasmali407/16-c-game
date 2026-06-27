@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedButton } from '@/components/common/AnimatedButton';
 import { SectionTitle } from '@/components/common/SectionTitle';
@@ -10,6 +11,7 @@ import { clearLeaderboard } from '@/utils/localStorage';
 import { PWAInstallButton } from '@/components/common/PWAInstallButton';
 import { useTranslation } from '@/hooks/useTranslation';
 import { LanguageSelector } from '@/components/common/LanguageSelector';
+import { FeedbackModal } from '@/components/common/FeedbackModal';
 
 export function SettingsPage() {
   const { settings, updateSettings } = useSettings();
@@ -17,6 +19,14 @@ export function SettingsPage() {
   const toast = useToast();
   const { resetGame } = useGame();
   const { t } = useTranslation();
+
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [feedbackType, setFeedbackType] = useState('feedback');
+
+  const handleOpenFeedback = (type) => {
+    setFeedbackType(type);
+    setIsFeedbackOpen(true);
+  };
 
   const handleResetData = () => {
     clearLeaderboard();
@@ -79,6 +89,57 @@ export function SettingsPage() {
           </AnimatedButton>
         </div>
       </div>
+
+      <div className="glass-card space-y-5 p-5 md:p-6">
+        <div>
+          <Body className="font-semibold">{t("feedbackAndSupport")}</Body>
+          <SmallText className="mt-0.5">{t("feedbackDesc")}</SmallText>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4 pt-2">
+          <AnimatedButton
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => handleOpenFeedback('rate')}
+            className="flex-1"
+          >
+            ⭐ {t("rateGame")}
+          </AnimatedButton>
+          <AnimatedButton
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => handleOpenFeedback('feedback')}
+            className="flex-1"
+          >
+            💬 {t("sendFeedback")}
+          </AnimatedButton>
+          <AnimatedButton
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => handleOpenFeedback('bug')}
+            className="flex-1"
+          >
+            🐞 {t("reportBug")}
+          </AnimatedButton>
+          <AnimatedButton
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => handleOpenFeedback('contact')}
+            className="flex-1"
+          >
+            📧 {t("contactDeveloper")}
+          </AnimatedButton>
+        </div>
+      </div>
+
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        onClose={() => setIsFeedbackOpen(false)}
+        initialType={feedbackType}
+      />
 
       <SmallText className="block text-center">
         {t("settingsFooter", { count: settings.playerCount, theme: settings.theme })}

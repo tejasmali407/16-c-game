@@ -5,6 +5,7 @@ export function generateCards(players) {
       deck.push({
         id: `${player.chitthiName}-${i}-${Math.random().toString(36).substring(2, 9)}`,
         name: player.chitthiName,
+        displayName: player.chitthiDisplayName || null,
         ownerChitthi: player.chitthiName,
       });
     }

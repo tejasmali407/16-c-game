@@ -15,6 +15,7 @@ import { useGame } from '@/context/GameContext';
 import { createPlayer } from '@/utils/createPlayer';
 import { useToast } from '@/context/ToastContext';
 import { useTranslation } from '@/hooks/useTranslation';
+import { robotPlayerNames, robotChitthiNames } from '@/data/robotNames';
 
 export function SetupPage() {
   const [searchParams] = useSearchParams();
@@ -78,15 +79,9 @@ export function SetupPage() {
       return;
     }
 
-    // Generate robot players
-    const ROBOT_CHITTHI_POOL = [
-      'Lotus', 'Tiger', 'Mango', 'Rose', 'Eagle', 'Jalgaon', 
-      'Diamond', 'Banyan', 'Peacock', 'Lion', 'Apple', 'Gold'
-    ];
-    
     // Filter out human's chitthi name
-    const pool = ROBOT_CHITTHI_POOL.filter(
-      (name) => name.toLowerCase() !== humanChitthi.trim().toLowerCase()
+    const pool = robotChitthiNames.filter(
+      (item) => item.internalName.toLowerCase() !== humanChitthi.trim().toLowerCase()
     );
 
     const playersList = [
@@ -94,11 +89,16 @@ export function SetupPage() {
     ];
 
     for (let i = 1; i <= robotCount - 1; i++) {
+      const robotPlayer = robotPlayerNames[i - 1] || { internalName: `Robot ${i}`, displayName: { en: `Robot ${i}`, mr: `रोबोट ${i}` } };
+      const robotChitthi = pool[i - 1] || robotChitthiNames[i - 1];
+
       playersList.push(
         createPlayer({
           id: i + 1,
-          name: `Robot ${i}`,
-          chitthiName: pool[i - 1] || `Chitthi ${i}`,
+          name: robotPlayer.internalName,
+          displayName: robotPlayer.displayName,
+          chitthiName: robotChitthi.internalName,
+          chitthiDisplayName: robotChitthi.displayName,
           isRobot: true,
         })
       );
@@ -329,4 +329,4 @@ export function SetupPage() {
     </motion.div>
   );
 }
-export default SetupPage;
+

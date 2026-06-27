@@ -115,6 +115,7 @@ import { useSettings } from '@/context/SettingsContext';
 import { useToast } from '@/context/ToastContext';
 import { playSound } from '@/utils/sounds';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getLocalizedPlayerName, getLocalizedCardName } from '@/utils/localizedDisplay';
 
 const GameContext = createContext(null);
 
@@ -122,7 +123,7 @@ export function GameProvider({ children }) {
   const [state, dispatch] = useReducer(gameReducer, initialState);
   const { settings } = useSettings();
   const toast = useToast();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const soundEnabled = settings?.soundEnabled;
 
@@ -153,7 +154,7 @@ export function GameProvider({ children }) {
 
       if (startingWinner) {
         playSound('winner', soundEnabled);
-        toast.success(t("toastWinnerDetected", { name: startingWinner.name }));
+        toast.success(t("toastWinnerDetected", { name: getLocalizedPlayerName(startingWinner, language) }));
         const winnerIndex = updatedPlayers.findIndex((p) => p.id === startingWinner.id);
         dispatch({
           type: 'PASS_CARD',
@@ -168,7 +169,7 @@ export function GameProvider({ children }) {
         dispatch({ type: 'SET_STATUS', payload: 'playing' });
       }
     }, 1500);
-  }, [state.players, soundEnabled, toast, t]);
+  }, [state.players, soundEnabled, toast, t, language]);
 
   const selectCard = useCallback((cardId) => {
     if (state.gameStatus !== 'playing') return;
@@ -180,8 +181,8 @@ export function GameProvider({ children }) {
     if (!card) return;
 
     dispatch({ type: 'SELECT_CARD', payload: cardId });
-    toast.info(t("toastCardSelected", { name: card.name }));
-  }, [state.gameStatus, state.players, state.currentPlayerIndex, toast, t]);
+    toast.info(t("toastCardSelected", { name: getLocalizedCardName(card, language) }));
+  }, [state.gameStatus, state.players, state.currentPlayerIndex, toast, t, language]);
 
   const passCard = useCallback((cardId) => {
     if (state.gameStatus !== 'playing') return;
@@ -213,7 +214,7 @@ export function GameProvider({ children }) {
     });
 
     playSound('pass', soundEnabled);
-    toast.success(t("toastPassedCard", { name: nextPlayer?.name || 'next player' }));
+    toast.success(t("toastPassedCard", { name: nextPlayer ? getLocalizedPlayerName(nextPlayer, language) : 'next player' }));
 
     let foundWinner = null;
     for (const player of updatedPlayers) {
@@ -225,7 +226,7 @@ export function GameProvider({ children }) {
 
     if (foundWinner) {
       playSound('winner', soundEnabled);
-      toast.success(t("toastWinnerDetected", { name: foundWinner.name }));
+      toast.success(t("toastWinnerDetected", { name: getLocalizedPlayerName(foundWinner, language) }));
     }
 
     const winnerIndex = foundWinner
@@ -241,7 +242,7 @@ export function GameProvider({ children }) {
         winner: foundWinner,
       },
     });
-  }, [state.players, state.currentPlayerIndex, state.gameStatus, soundEnabled, toast, t]);
+  }, [state.players, state.currentPlayerIndex, state.gameStatus, soundEnabled, toast, t, language]);
 
   const startReactionPhase = useCallback(() => {
     if (state.gameStatus !== 'winnerReady' || !state.winner) return;
@@ -324,7 +325,7 @@ export function GameProvider({ children }) {
         lastPlayer?.name,
         lastReaction.time
       );
-      toast.error(t("toastRoundOver", { name: lastPlayer?.name || 'Slowest player' }));
+      toast.error(t("toastRoundOver", { name: lastPlayer ? getLocalizedPlayerName(lastPlayer, language) : 'Slowest player' }));
 
       dispatch({
         type: 'FINISH_ROUND',
@@ -335,7 +336,7 @@ export function GameProvider({ children }) {
         },
       });
     }
-  }, [state.gameStatus, state.reactions, state.players, state.winner, state.reactionStartTime, soundEnabled, toast, t]);
+  }, [state.gameStatus, state.reactions, state.players, state.winner, state.reactionStartTime, soundEnabled, toast, t, language]);
 
   const resetRound = useCallback(() => {
     playSound('shuffle', soundEnabled);

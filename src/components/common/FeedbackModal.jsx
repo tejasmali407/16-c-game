@@ -88,7 +88,7 @@ export function FeedbackModal({ isOpen, onClose, initialType }) {
       browser: metadata.browser,
       timestamp: new Date().toISOString(),
     };
-    console.log("payload", payload);
+    console.log("FINAL FEEDBACK PAYLOAD", payload);
 
     try {
       await submitFeedback(payload);

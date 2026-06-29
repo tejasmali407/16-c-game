@@ -72,6 +72,7 @@ export function FeedbackModal({ isOpen, onClose, initialType }) {
     setIsSubmitting(true);
 
     const metadata = getDeviceInfo();
+    console.log("metadata", metadata);
 
     const payload = {
       feedbackType,
@@ -86,6 +87,7 @@ export function FeedbackModal({ isOpen, onClose, initialType }) {
       browser: metadata.browser,
       timestamp: new Date().toISOString(),
     };
+    console.log("payload", payload);
 
     try {
       await submitFeedback(payload);

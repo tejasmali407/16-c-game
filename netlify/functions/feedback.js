@@ -8,6 +8,7 @@ export async function handler(event, context) {
 
   try {
     const body = JSON.parse(event.body);
+    console.log("function body", body);
 
     if (!body.feedbackType || !body.message) {
       return {

@@ -17,11 +17,17 @@ export function FeedbackModal({ isOpen, onClose, initialType }) {
   const toast = useToast();
   
   // Try to safely access game state for mode
-  let gameMode = null;
+  let currentGameMode = 'N/A';
   try {
     const gameState = useGame();
-    if (gameState && gameState.gameStatus !== 'setup') {
-      gameMode = gameState.gameMode;
+    if (gameState && gameState.gameMode && gameState.gameStatus !== 'setup') {
+      if (gameState.gameMode === 'friends') {
+        currentGameMode = 'Friend Mode';
+      } else if (gameState.gameMode === 'robot') {
+        currentGameMode = 'Robot Mode';
+      } else {
+        currentGameMode = gameState.gameMode;
+      }
     }
   } catch (e) {
     // Ignored, GameContext might not be fully initialized or active
@@ -65,6 +71,8 @@ export function FeedbackModal({ isOpen, onClose, initialType }) {
 
     setIsSubmitting(true);
 
+    const metadata = getDeviceInfo();
+
     const payload = {
       feedbackType,
       rating: rating > 0 ? rating : undefined,
@@ -72,10 +80,10 @@ export function FeedbackModal({ isOpen, onClose, initialType }) {
       name: name.trim() || undefined,
       email: email.trim() || undefined,
       language,
-      deviceInfo: getDeviceInfo(),
-      browser: getBrowserInfo(),
-      gameMode: gameMode || 'N/A',
+      device: metadata.device,
+      gameMode: currentGameMode,
       appVersion: '1.0.0',
+      browser: metadata.browser,
       timestamp: new Date().toISOString(),
     };
 

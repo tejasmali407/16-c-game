@@ -82,6 +82,7 @@ export function FeedbackModal({ isOpen, onClose, initialType }) {
       email: email.trim() || undefined,
       language,
       device: metadata.device,
+      deviceInfo: metadata.device, // backward compatibility
       gameMode: currentGameMode,
       appVersion: '1.0.0',
       browser: metadata.browser,
